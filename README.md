@@ -12,7 +12,11 @@ Use this starter kit to develop with Laravel 9 setup InertiaJs with Server Side 
 * Node 14 or latest
 
 ## How to start 
+<<<<<<< HEAD
 <b>To use roles & permissions: select the branch "Branch_with_roles_permissions"</b>
+=======
+To use roles & permissions: select the branch "Branch_with_roles_permissions"
+>>>>>>> 0d3aae7 (Readme updated)
 
 Clone the repo https://github.com/souravtah/Laravel9-Inertia-ssr-bootstrap5-starter-kit.git
 ```bash
@@ -36,3 +40,12 @@ or
 ```bash
 $ npm run watch
 ```
+## Login using the following credentials:
+
+Admin: 
+username/email: admin@example.com
+password: password
+
+User: 
+username/email: user@example.com
+password: password
