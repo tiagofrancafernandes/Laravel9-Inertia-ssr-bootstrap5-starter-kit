@@ -28,4 +28,13 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/pages', function () {
+    return Inertia::render('pages/PageIndex', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->middleware(['auth', 'verified'])->name('pages.index');
+
 require __DIR__.'/auth.php';
