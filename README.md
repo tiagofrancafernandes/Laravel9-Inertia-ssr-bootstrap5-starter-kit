@@ -1,5 +1,10 @@
 # Laravel Starter Kit (Inertia-SSR - Vue3 - Bootstrap 5)
 
+# Next steps
+
+- From webpack/mix to vite
+- Use 1 file for Edit and Create (to use `resources/js/Pages/Role/Edit.vue` as base)
+
 ### Forked from (souravtah/Laravel9-Inertia-ssr-bootstrap5-starter-kit)[https://github.com/souravtah/Laravel9-Inertia-ssr-bootstrap5-starter-kit]
 
 Use this starter kit to develop with Laravel 9 setup InertiaJs with Server Side Rendering (SSR), Vue Js 3 and Bootstrap 5
