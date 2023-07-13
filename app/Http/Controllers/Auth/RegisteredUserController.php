@@ -46,6 +46,16 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        try {
+            $user->assignRole(['admin']);
+        } catch (\Throwable $th) {
+            if (!app()->environment(['production'])) {
+                throw $th;
+            }
+
+            \Log::error($th);
+        }
+
         event(new Registered($user));
 
         Auth::login($user);

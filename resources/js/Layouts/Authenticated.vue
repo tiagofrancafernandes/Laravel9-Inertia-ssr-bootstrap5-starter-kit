@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top">
       <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="/">
+		<a class="navbar-brand" href="/">
           <Link :href="route('dashboard')">
             <breeze-application-logo width="36" />
           </Link>
@@ -21,6 +21,14 @@
 
             <breeze-nav-link :href="route('pages.index')" :active="route().current('pages.index')">
                 Pages
+            </breeze-nav-link>
+
+			      <breeze-nav-link v-if="$page.props.roles.includes('admin')" :href="route('roles.index')" :active="route().current('roles.*')">
+              Roles
+            </breeze-nav-link>
+
+			      <breeze-nav-link v-if="$page.props.roles.includes('admin')" :href="route('permissions.index')" :active="route().current('permissions.*')">
+              Permissions
             </breeze-nav-link>
           </ul>
 
@@ -51,12 +59,13 @@
     <!-- Page Heading -->
     <header class="d-flex py-3 bg-white shadow-sm border-bottom">
       <div class="container">
+        <div v-if="$page.props.flash.message" class="text-info">{{ $page.props.flash.message }}</div>
         <slot name="header" />
       </div>
     </header>
 
     <!-- Page Content -->
-    <main class="container my-5">
+    <main class="container my-4">
       <slot />
     </main>
   </div>
