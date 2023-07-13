@@ -24,9 +24,23 @@ class RoleRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'role_name'             => 'required|min:3|max:125|string',
-            'selectedPermissions'   => 'required|array|exists:permissions,name'
+        $requiredFields = [
+            'role_name',
         ];
+
+        $rules = [
+            'role_name' => 'min:3|max:125|string',
+            'selectedPermissions' => 'array|exists:permissions,name',
+        ];
+
+        if ($this->method() == 'POST') {
+            foreach ($rules as $field => $rule) {
+                if (in_array($field, $requiredFields)) {
+                    $rules[$field] .= '|required';
+                }
+            }
+        }
+
+        return $rules;
     }
 }

@@ -20,7 +20,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return inertia('Role/Index', ['all_roles' => Role::select('id','name')->get()]);
+        return inertia('Role/Index', ['all_roles' => Role::select('id', 'name')->get()]);
     }
 
     /**
@@ -30,7 +30,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return inertia('Role/Create', ['permission_list' => Permission::select('id','name')->get()]);
+        return inertia('Role/Create', ['permission_list' => Permission::select('id', 'name')->get()]);
     }
 
     /**
@@ -42,10 +42,10 @@ class RoleController extends Controller
     public function store(RoleRequest $request)
     {
         $role = Role::create(['name' => $request->role_name]);
-		$role->givePermissionTo($request->selectedPermissions);
+        $role->givePermissionTo($request->selectedPermissions);
 
-		return redirect()->action([RoleController::class, 'index'])
-                        ->with('message', 'Role created successfully');
+        return redirect()->action([RoleController::class, 'index'])
+            ->with('message', 'Role created successfully');
     }
 
     /**
@@ -67,9 +67,16 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $granted_permission_list = $role->permissions->pluck('name', 'id');
-        $all_permissions = Permission::select('id','name')->get()->pluck('name', 'id');
-        return inertia('Role/Edit', compact('granted_permission_list', 'role', 'all_permissions'));
+        $grantedPermissionList = $role->permissions->pluck('name', 'id');
+        $allPermissions = Permission::select('id', 'name')->get()->pluck('name', 'id');
+        $csrfToken = csrf_token();
+
+        return inertia('Role/Edit', [
+            'grantedPermissionList' => $grantedPermissionList,
+            'role' => $role,
+            'allPermissions' => $allPermissions,
+            'csrfToken' => $csrfToken,
+        ]);
     }
 
     /**
@@ -81,12 +88,15 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, Role $role)
     {
-        $role->update(['name' => $request->role_name]);
-		$role->syncPermissions($request->selectedPermissions);
+        if ($request->get('role_name')) {
+            $role->update(['name' => $request->get('role_name')]);
+        }
+
+        $role->syncPermissions($request->selectedPermissions);
         $role->save();
 
-		return redirect()->action([RoleController::class, 'index'])
-                        ->with('message', 'Role updated successfully');
+        return redirect()->action([RoleController::class, 'index'])
+            ->with('message', 'Role updated successfully');
     }
 
     /**
@@ -99,6 +109,6 @@ class RoleController extends Controller
     {
         $role->delete();
         return redirect()->action([RoleController::class, 'index'])
-                        ->with('message', 'Role deleted successfully');
+            ->with('message', 'Role deleted successfully');
     }
 }
